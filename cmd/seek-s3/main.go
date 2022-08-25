@@ -11,7 +11,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	s3readerat "github.com/markandrus/s3readerat"
+	s3readerat "github.com/senekis/s3readerat"
 )
 
 var debug = flag.Bool("debug", false, "enable verbose output")
