@@ -130,11 +130,11 @@ func (ra *S3ReaderAt) Size() (int64, error) {
 		return -1, errors.Wrap(err, "S3 HeadObject failed")
 	}
 
-	if resp.ContentLength < 0 {
+	if aws.ToInt64(resp.ContentLength) < 0 {
 		return -1, errors.Errorf("S3 object size is invalid: %d", resp.ContentLength)
 	}
 
-	ra.size = resp.ContentLength
+	ra.size = aws.ToInt64(resp.ContentLength)
 	if ra.Debug {
 		log.Printf("S3 object s3://%s/%s has size %d", ra.bucket, ra.key, ra.size)
 	}
@@ -195,7 +195,7 @@ func (ra *S3ReaderAt) ReadAt(p []byte, off int64) (int, error) {
 		err = io.EOF
 	}
 
-	if (err == nil || err == io.EOF) && int64(n) != resp.ContentLength {
+	if (err == nil || err == io.EOF) && int64(n) != aws.ToInt64(resp.ContentLength) {
 		if ra.Debug {
 			log.Printf("We read %d bytes, but the content-length was %d\n", n, resp.ContentLength)
 		}

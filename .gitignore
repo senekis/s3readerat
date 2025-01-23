@@ -1,3 +1,6 @@
 .env
 .idea
 /seek-s3
+
+# Dependency directories
+vendor
